@@ -75,7 +75,7 @@ Because hash-based history in Internet Explorer relies on an `<iframe>`, be sure
 
 stop listening to URL changes.
 
-### locationBar.change(callback)
+### locationBar.onChange(callback)
 
 Get notified every time URL changes
 
