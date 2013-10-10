@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test"
+
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,15 @@
   "bugs": {
     "url": "https://github.com/KidkArolis/location-bar/issues"
   },
-  "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-qunit": "~0.3.0"
+  "testling" : {
+    "html" : "test/location_bar_test.html",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/20..latest",
+      "firefox/10..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6", "ipad/6"
+    ]
   }
 }
