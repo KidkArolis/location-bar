@@ -1,0 +1,32 @@
+{
+  "name": "location-bar",
+  "version": "1.0.0",
+  "description": "A microlib for managing browser's location bar via pushState and hashChange APIs. This lib makes it easy to listen to URL changes and update the URL.",
+  "main": "location-bar.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/KidkArolis/location-bar.git"
+  },
+  "keywords": [
+    "history",
+    "pushState",
+    "browser",
+    "location",
+    "url"
+  ],
+  "author": "Karolis Narkevicius",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/KidkArolis/location-bar/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-qunit": "~0.3.0"
+  }
+}

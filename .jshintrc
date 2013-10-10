@@ -1,0 +1,38 @@
+{
+  "curly": false,
+  "eqeqeq": true,
+  "eqnull": true,
+  "scripturl": true,
+  "forin": false,
+  "immed": true,
+  "latedef": false,
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "regexp": false,
+  "undef": true,
+  "unused": true,
+  "trailing": true,
+  "sub": true,
+  "expr": true,
+  "es5": true,
+
+  "browser": true,
+  "devel": true,
+
+  "indent": 2,
+  "maxlen": 120,
+  "white": false,
+
+  "predef": ["define", "module", "require"],
+
+  "strict": false,
+  "nomen": false,
+  "onevar": false,
+  "plusplus": false,
+  "jquery": false,
+  "dojo": false,
+  "mootools": false,
+  "prototypejs": false
+}
