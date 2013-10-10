@@ -16,7 +16,7 @@ pushState support exists on a purely opt-in basis. Older browsers that don't sup
 
 ## Example Usage
 
-```
+```js
 var LocationBar = require("location-bar");
 var locationBar = new LocationBar();
 
@@ -98,7 +98,7 @@ Update the location bar with a new URL. Default options are:
 
 Checks if the browser has pushState support. Not all browsers support pushState, and if you choose to opt in pushstate when starting locationBar via `locationBar.start({pushState: true})` - locationBar will fallback to `hashchange` or `polling` on old browsers. In those cases it might be useful to check wether the browser hasPushState, because you might want to generate URLs in your application appropriately (add # for non pushState browsers).
 
-### Tests, etc.
+## Tests, etc.
 
 Currently we're using Backbone.js#f6fa0cb87e26bb3d1b7f47144fd720d1ab48e88f. That is the code and tests are adapted from that version of Backbone.
 
