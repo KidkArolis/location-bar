@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf8'>
+  <title>location-bar test suite</title>
+  <link rel="stylesheet" href="test/vendor/qunit.css" type="text/css" media="screen">
+</head>
+<body>
+  <pre id="__testling_output"></pre>
+
+  <div id="qunit"></div>
+
+  <script src="test/vendor/json2.js"></script>
+  <script src="test/vendor/jquery.js"></script>
+  <script src="test/vendor/qunit.js"></script>
+  <script src="test/vendor/qunit-tap.js"></script>
+  <script>
+    qunitTap(QUnit, function() { console.log.apply(console, arguments); });
+  </script>
+  <script src="test/vendor/underscore.js"></script>
+  <script>
+    // wanna ensure we're not using _ and $ in location-bar
+    window.underscore = window._.noConflict();
+    window.nonGlobaljQuery = window.$.noConflict();
+  </script>
+
+  <script>
+  // because the Backbone tests aren't setup to use AMD,
+  // and we're just reusing their setup, let's fake the AMD
+  var define = function (f) {
+    window.LocationBar = f();
+  }
+  define.amd = true;
+  </script>
+
+  <script src="location-bar.js"></script>
+  <script src="test/location_bar_test.js"></script>
+</body>
+</html>
