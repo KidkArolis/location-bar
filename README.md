@@ -37,13 +37,13 @@ locationBar.start({
 });
 
 // update the address bar and add a new entry in browsers history
-locationBar.navigate("/some/url?param=123");
+locationBar.update("/some/url?param=123");
 
 // update the address bar but don't add the entry in history
-locationBar.navigate("/some/url", {replace: true});
+locationBar.update("/some/url", {replace: true});
 
 // update the address bar and call the `change` callback
-locationBar.navigate("/some/url", {trigger: true});
+locationBar.update("/some/url", {trigger: true});
 ```
 
 ## API
@@ -83,7 +83,7 @@ Get notified every time URL changes
 
 Get notified every time URL changes and matches a certain regex
 
-### locationBar.navigate(path, options)
+### locationBar.update(path, options)
 
 Update the location bar with a new URL. Default options are:
 
