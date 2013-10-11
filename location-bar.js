@@ -1,5 +1,4 @@
-// LocationBar module extracted from Backbone.js 1.0.0
-// (actually it's commit f6fa0cb87e26bb3d1b7f47144fd720d1ab48e88f)
+// LocationBar module extracted from Backbone.js 1.1.0
 //
 // the dependency on backbone, underscore and jquery have been removed to turn
 // this into a small standalone library for handling browser's history API

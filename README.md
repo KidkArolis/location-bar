@@ -100,6 +100,6 @@ Checks if the browser has pushState support. Not all browsers support pushState,
 
 ## Tests, etc.
 
-Currently we're using Backbone.js#f6fa0cb87e26bb3d1b7f47144fd720d1ab48e88f. That is the code and tests are adapted from that version of Backbone.
-
 The full original `Backbone.Router` tests from Backbone project are being run after replacing Backbone.history with locationBar to make sure full compatiblity, and some aditional tests (for new methods) have been added as well.
+
+The code and tests are adapted from Backbone 1.1.0.
