@@ -1,6 +1,6 @@
 {
   "name": "location-bar",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.1",
   "description": "A microlib for managing browser's location bar via pushState and hashChange APIs. This lib makes it easy to listen to URL changes and update the URL.",
   "main": "location-bar.js",
   "directories": {
