@@ -8,11 +8,22 @@ Some more features
   * support for AMD and CJS module systems
   * available in npm and bower
 
+
 ## Adapted Original Backbone Docs
 
 LocationBar serves as a global router (per frame) to handle hashchange events or pushState, match the appropriate route, and trigger callbacks.
 
 pushState support exists on a purely opt-in basis. Older browsers that don't support pushState will continue to use hash-based URL fragments, and if a hash URL is visited by a pushState-capable browser, it will be transparently upgraded to the true URL. Note that using real URLs requires your web server to be able to correctly render those pages, so back-end changes are required as well. For example, if you have a route of /documents/100, your web server must be able to serve that page, if the browser visits that URL directly. For full search-engine crawlability, it's best to have the server generate the complete HTML for the page ... but if it's a web application, just rendering the same content you would have for the root URL, and filling in the rest with JavaScript works fine.
+
+
+## Install
+
+    npm install location-bar
+
+or
+
+    bower install location-bar
+
 
 ## Example Usage
 
@@ -45,6 +56,7 @@ locationBar.update("/some/url", {replace: true});
 // update the address bar and call the `change` callback
 locationBar.update("/some/url", {trigger: true});
 ```
+
 
 ## API
 
@@ -103,6 +115,7 @@ Checks if the browser has pushState support. Not all browsers support pushState,
 The full original `Backbone.Router` tests from Backbone project are being run after replacing Backbone.history with locationBar to make sure full compatiblity, and some aditional tests (for new methods) have been added as well.
 
 The code and tests are adapted from Backbone 1.1.0 (commit e6f8f7ea69370b0891cc969a2c68ebb78ad6e49b)
+
 
 ## Changelog
 
