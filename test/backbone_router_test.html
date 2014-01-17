@@ -52,6 +52,9 @@
       history: new window.LocationBar(),
       History: window.LocationBar
     };
+
+    // We never want to actually call these during tests.
+    history.pushState = history.replaceState = function(){};
   </script>
 
   <script src="backbone_router_test.js"></script>

@@ -67,7 +67,7 @@
     window.location.hash = "some/url?withParam=1&moreParams=2";
   });
 
-  asyncTest("routes via navigate", 2, function() {
+  asyncTest("routes via update", 2, function() {
     locationBar.onChange(function (path) {
       equal(path, "search/manhattan/p20");
       start();
@@ -76,7 +76,7 @@
     equal(window.location.hash, "#search/manhattan/p20");
   });
 
-  test("routes via navigate with {replace: true}", 1, function() {
+  test("routes via update with {replace: true}", 1, function() {
     location.replace('http://example.com#start_here');
     locationBar.location = location;
     locationBar.checkUrl();
@@ -84,6 +84,15 @@
       strictEqual(href, new Location('http://example.com#end_here').href);
     };
     locationBar.update('end_here', {replace: true});
+  });
+
+  asyncTest("routes via update with query params", 2, function() {
+    locationBar.onChange(function (path) {
+      equal(path, "search/manhattan/p20?id=1&foo=bar");
+      start();
+    });
+    locationBar.update("search/manhattan/p20?id=1&foo=bar", {trigger: true});
+    equal(window.location.hash, "#search/manhattan/p20?id=1&foo=bar");
   });
 
 })();
