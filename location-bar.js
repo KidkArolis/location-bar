@@ -198,7 +198,7 @@ define(function() {
     stop: function() {
       off(window, 'popstate', this.checkUrl);
       off(window, 'hashchange', this.checkUrl);
-      clearInterval(this._checkUrlInterval);
+      if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
       LocationBar.started = false;
     },
 
