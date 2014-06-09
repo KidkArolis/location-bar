@@ -8,12 +8,22 @@
 define(function() {
 
   // 3 helper functions we use to avoid pulling in entire _ and $
-  function extend(obj, source) {
+  var _ = {};
+  _.extend = function extend(obj, source) {
     for (var prop in source) {
       obj[prop] = source[prop];
     }
     return obj;
   }
+  _.any = function any(arr, fn) {
+    for (var i = 0, l = arr.length; i < l; i++) {
+      if (fn(arr[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
   function on(obj, type, fn) {
     if (obj.attachEvent) {
       obj['e'+type+fn] = fn;
@@ -36,8 +46,8 @@ define(function() {
 
 
 
-  // this is mostly original code with minor modifications, mostyle to avoid
-  // dependency on 3rd party libraries + renaming Backbone.History -> LocationBar
+  // this is mostly original code with minor modifications
+  // to avoid dependency on 3rd party libraries
   //
   // Backbone.History
   // ----------------
@@ -47,7 +57,7 @@ define(function() {
   // [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
   // and URL fragments. If the browser supports neither (old IE, natch),
   // falls back to polling.
-  var LocationBar = function() {
+  var History = function() {
     this.handlers = [];
 
     // MODIFICATION OF ORIGINAL BACKBONE.HISTORY
@@ -60,7 +70,7 @@ define(function() {
       checkUrl.apply(self, arguments);
     };
 
-    // Ensure that `LocationBar` can be used outside of the browser.
+    // Ensure that `History` can be used outside of the browser.
     if (typeof window !== 'undefined') {
       this.location = window.location;
       this.history = window.history;
@@ -83,10 +93,10 @@ define(function() {
   var pathStripper = /#.*$/;
 
   // Has the history handling already been started?
-  LocationBar.started = false;
+  History.started = false;
 
-  // Set up all inheritable **LocationBar** properties and methods.
-  extend(LocationBar.prototype, {
+  // Set up all inheritable **Backbone.History** properties and methods.
+  _.extend(History.prototype, {
 
     // The default interval to poll for hash changes, if necessary, is
     // twenty times a second.
@@ -122,12 +132,12 @@ define(function() {
     // Start the hash change handling, returning `true` if the current URL matches
     // an existing route, and `false` otherwise.
     start: function(options) {
-      if (LocationBar.started) throw new Error("LocationBar has already been started");
-      LocationBar.started = true;
+      if (History.started) throw new Error("LocationBar has already been started");
+      History.started = true;
 
       // Figure out the initial configuration. Do we need an iframe?
       // Is pushState desired ... is it available?
-      this.options          = extend({root: '/'}, options);
+      this.options          = _.extend({root: '/'}, options);
       this.root             = this.options.root;
       this._wantsHashChange = this.options.hashChange !== false;
       this._wantsPushState  = !!this.options.pushState;
@@ -199,7 +209,7 @@ define(function() {
       off(window, 'popstate', this.checkUrl);
       off(window, 'hashchange', this.checkUrl);
       if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
-      LocationBar.started = false;
+      History.started = false;
     },
 
     // Add a route to be tested when the fragment changes. Routes added later
@@ -224,24 +234,13 @@ define(function() {
     // match, returns `true`. If no defined routes matches the fragment,
     // returns `false`.
     loadUrl: function(fragment) {
-      // MODIFICATION OF ORIGINAL BACKBONE.HISTORY
-      //
-      // return _.any(this.handlers, function(handler) {
-      //   if (handler.route.test(fragment)) {
-      //     handler.callback(fragment);
-      //     return true;
-      //   }
-      // });
-      //
       fragment = this.fragment = this.getFragment(fragment);
-      for (var i = 0, l = this.handlers.length; i < l; i++) {
-        var handler = this.handlers[i];
+      return _.any(this.handlers, function(handler) {
         if (handler.route.test(fragment)) {
           handler.callback(fragment);
           return true;
         }
-      }
-      return false;
+      });
     },
 
     // Save a fragment into the hash history, or replace the URL state if the
@@ -252,7 +251,7 @@ define(function() {
     // route callback be fired (not usually desirable), or `replace: true`, if
     // you wish to modify the current URL without adding an entry to the history.
     navigate: function(fragment, options) {
-      if (!LocationBar.started) return false;
+      if (!History.started) return false;
       if (!options || options === true) options = {trigger: !!options};
 
       var url = this.root + (fragment = this.getFragment(fragment || ''));
@@ -306,22 +305,22 @@ define(function() {
 
 
 
-  // add some features to LocationBar
+  // add some features to History
 
   // a more intuitive alias for navigate
-  LocationBar.prototype.update = function () {
+  History.prototype.update = function () {
     this.navigate.apply(this, arguments);
   };
 
   // a generic callback for any changes
-  LocationBar.prototype.onChange = function (callback) {
+  History.prototype.onChange = function (callback) {
     this.route(/^(.*?)$/, callback);
   };
 
   // checks if the browser has pushstate support
-  LocationBar.prototype.hasPushState = function () {
-    if (!LocationBar.started) {
-      throw new Error("only available after locationBar.start()");
+  History.prototype.hasPushState = function () {
+    if (!History.started) {
+      throw new Error("only available after LocationBar.start()");
     }
     return this._hasPushState;
   };
@@ -332,6 +331,6 @@ define(function() {
 
 
   // export
-  return LocationBar;
+  return History;
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
