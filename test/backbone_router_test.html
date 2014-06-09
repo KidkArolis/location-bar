@@ -28,7 +28,7 @@
   <script>
     var BackboneRouter = Backbone.Router;
     var BackboneEvents = Backbone.Events;
-    delete Backbone;
+    var RealBackbone = Backbone.noConflict();
   </script>
 
   <script src="../location-bar.js"></script>
@@ -48,9 +48,9 @@
     _.extend(window.LocationBar.prototype, BackboneEvents);
 
     window.Backbone = {
-      Router: BackboneRouter,
-      history: new window.LocationBar(),
-      History: window.LocationBar
+      Router: RealBackbone.Router,
+      History: window.LocationBar,
+      history: new window.LocationBar()
     };
 
     // We never want to actually call these during tests.

@@ -1,9 +1,6 @@
-// e6f8f7ea69370b0891cc969a2c68ebb78ad6e49b
+//     Backbone.js 1.1.2
 
-//     Backbone.js 1.1.0
-
-//     (c) 2010-2011 Jeremy Ashkenas, DocumentCloud Inc.
-//     (c) 2011-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+//     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Backbone may be freely distributed under the MIT license.
 //     For all details and documentation:
 //     http://backbonejs.org
@@ -20,17 +17,20 @@
 
   // Next for Node.js or CommonJS. jQuery may not be needed as a module.
   } else if (typeof exports !== 'undefined') {
-    var _ = require('underscore'), $;
-    try { $ = require('jquery'); } catch(e) {}
-    factory(root, exports, _, $);
+    var _ = require('underscore');
+    factory(root, exports, _);
 
   // Finally, as a browser global.
   } else {
     root.Backbone = factory(root, {}, root._, (root.jQuery || root.Zepto || root.ender || root.$));
   }
 
-// CHANGED FOR TESTS OF location-bar
+// LOCATION-BAR >>>
+// }(this, function(root, Backbone, _, $) {
+// ---
 }(this, function(root, BackboneNOTUSED, _, $) {
+  window.Backbone = {};
+// LOCATION-BAR <<<
 
   // Initial Setup
   // -------------
@@ -45,24 +45,8 @@
   var slice = array.slice;
   var splice = array.splice;
 
-  // CHANGED FOR TESTS OF location-bar
-  //
-  // The top-level namespace. All public Backbone classes and modules will
-  // be attached to this. Exported for both the browser and the server.
-  // var Backbone;
-  // if (typeof exports !== 'undefined') {
-  //   Backbone = exports;
-  // } else {
-  //   Backbone = root.Backbone = {};
-  // }
-  //
-  // we wan't to remove the Backbone variable that is local to the closure
-  // and instead make sure all code references the window.Backbone, which
-  // we'll swap in with a fake one in the tests.
-  window.Backbone = {};
-
   // Current version of the library. Keep in sync with `package.json`.
-  Backbone.VERSION = '1.1.0';
+  Backbone.VERSION = '1.1.2';
 
   // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
   // the `$` variable.
@@ -729,7 +713,11 @@
           toAdd.push(model);
           this._addReference(model, options);
         }
-        if (order) order.push(existing || model);
+
+        // Do not add multiple models with the same `id`.
+        model = existing || model;
+        if (order && (model.isNew() || !modelMap[model.id])) order.push(model);
+        modelMap[model.id] = true;
       }
 
       // Remove nonexistent models if appropriate.
@@ -1309,7 +1297,7 @@
                      return optional ? match : '([^/?]+)';
                    })
                    .replace(splatParam, '([^?]*?)');
-      return new RegExp('^' + route + '(?:\\?(.*))?$');
+      return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
     },
 
     // Given a route, and a URL fragment that it matches, return the array of
@@ -1334,7 +1322,7 @@
   // [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
   // and URL fragments. If the browser supports neither (old IE, natch),
   // falls back to polling.
-  var History = Backbone.History = function() {
+  var HistoryNOTUSED = Backbone.HistoryNOTUSED = function() {
     this.handlers = [];
     _.bindAll(this, 'checkUrl');
 
@@ -1361,10 +1349,10 @@
   var pathStripper = /#.*$/;
 
   // Has the history handling already been started?
-  History.started = false;
+  HistoryNOTUSED.started = false;
 
   // Set up all inheritable **Backbone.History** properties and methods.
-  _.extend(History.prototype, Events, {
+  _.extend(HistoryNOTUSED.prototype, Events, {
 
     // The default interval to poll for hash changes, if necessary, is
     // twenty times a second.
@@ -1400,8 +1388,8 @@
     // Start the hash change handling, returning `true` if the current URL matches
     // an existing route, and `false` otherwise.
     start: function(options) {
-      if (History.started) throw new Error("Backbone.history has already been started");
-      History.started = true;
+      if (HistoryNOTUSED.started) throw new Error("Backbone.history has already been started");
+      HistoryNOTUSED.started = true;
 
       // Figure out the initial configuration. Do we need an iframe?
       // Is pushState desired ... is it available?
@@ -1466,8 +1454,8 @@
     // but possibly useful for unit testing Routers.
     stop: function() {
       Backbone.$(window).off('popstate', this.checkUrl).off('hashchange', this.checkUrl);
-      clearInterval(this._checkUrlInterval);
-      History.started = false;
+      if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
+      HistoryNOTUSED.started = false;
     },
 
     // Add a route to be tested when the fragment changes. Routes added later
@@ -1509,7 +1497,7 @@
     // route callback be fired (not usually desirable), or `replace: true`, if
     // you wish to modify the current URL without adding an entry to the history.
     navigate: function(fragment, options) {
-      if (!History.started) return false;
+      if (!HistoryNOTUSED.started) return false;
       if (!options || options === true) options = {trigger: !!options};
 
       var url = this.root + (fragment = this.getFragment(fragment || ''));
@@ -1562,7 +1550,7 @@
   });
 
   // Create the default Backbone.history.
-  Backbone.history = new History;
+  Backbone.historyNOTUSED = new HistoryNOTUSED;
 
   // Helpers
   // -------
@@ -1604,7 +1592,7 @@
   };
 
   // Set up inheritance for the model, collection, router, view and history.
-  Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend;
+  Model.extend = Collection.extend = Router.extend = View.extend = HistoryNOTUSED.extend = extend;
 
   // Throw an error when a URL is needed, and none is supplied.
   var urlError = function() {
