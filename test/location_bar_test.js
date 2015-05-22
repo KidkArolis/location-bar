@@ -4,7 +4,7 @@
   var $ = window.nonGlobaljQuery;
   var LocationBar = window.LocationBar;
   var location;
-  var locationBar;
+  var locationBar, locationBar1, locationBar2;
 
   // QUnit.config.filter = "routes (simple)";
 
@@ -93,6 +93,83 @@
     });
     locationBar.update("search/manhattan/p20?id=1&foo=bar", {trigger: true});
     equal(window.location.hash, "#search/manhattan/p20?id=1&foo=bar");
+  });
+
+  module("multiple instances of location-bar", {
+
+    setup: function() {
+      location = new Location('http://example.com');
+      window.location.hash = "#setup";
+    },
+
+    teardown: function() {
+      locationBar1.stop();
+      locationBar2.stop();
+    }
+
+  });
+
+  asyncTest("can all listen in", 3, function () {
+    var count = 0;
+
+    locationBar1 = new LocationBar();
+    locationBar1.route(/^search\/.*$/, function (path) {
+      if (count < 2) {
+        equal(path, 'search/news');
+        proceed();
+      } else {
+        equal(path, 'search/food')
+        start();
+      }
+    });
+    locationBar1.start({pushState: false});
+
+    // navigate first
+    window.location.hash = "search/news";
+
+    // and then add another location bar, which when
+    // started should match immediately
+    locationBar2 = new LocationBar();
+    locationBar2.route(/^search\/news.*$/, function (path) {
+      equal(path, 'search/news');
+      proceed();
+    });
+    locationBar2.start();
+
+    // second part of the test where we navigate for the second time
+    function proceed() {
+      if (++count < 2) return;
+      window.location.hash = "search/food";
+    }
+  });
+
+  asyncTest("can all navigate", 3, function () {
+    var count = 0;
+    locationBar1 = new LocationBar();
+    locationBar1.route(/^search\/.*$/, function (path) {
+      if (count < 2) {
+        equal(path, 'search/news');
+        proceed();
+      } else {
+        equal(path, 'search/food')
+        start();
+      }
+    });
+    locationBar1.start({pushState: false});
+
+    locationBar2 = new LocationBar();
+    locationBar2.route(/^search\/news.*$/, function (path) {
+      equal(path, 'search/news');
+      proceed();
+    });
+    locationBar2.start();
+
+    locationBar1.navigate('search/news', {trigger: true});
+
+    function proceed() {
+      if (++count < 2) return;
+      locationBar1.navigate('search/food', {trigger: true});
+    }
   });
 
 })();
