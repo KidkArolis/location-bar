@@ -138,6 +138,8 @@ define(function() {
       // Figure out the initial configuration. Do we need an iframe?
       // Is pushState desired ... is it available?
       this.options          = _.extend({root: '/'}, options);
+      this.location         = this.options.location || this.location;
+      this.history          = this.options.history || this.history;
       this.root             = this.options.root;
       this._wantsHashChange = this.options.hashChange !== false;
       this._wantsPushState  = !!this.options.pushState;
