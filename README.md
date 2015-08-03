@@ -69,7 +69,9 @@ start listening to URL changes. Default options are:
   pushState: false,
   hashChange: true,
   root: "/",
-  silent: false
+  silent: false,
+  location: window.location,
+  history: window.history
 }
 ```
 
@@ -118,6 +120,10 @@ The code and tests are adapted from Backbone 1.1.2 (commit 53f77901a4ea9c7cf75d3
 
 
 ## Changelog
+
+### 2.1.0
+
+* Make it possible to pass custom `location` and `history` objects to `start` - mostly intended for testing
 
 ### 2.0.0
 
