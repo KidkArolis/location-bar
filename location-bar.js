@@ -92,8 +92,9 @@ define(function() {
   // Cached regex for stripping urls of hash.
   var pathStripper = /#.*$/;
 
+  // MODIFICATION OF ORIGINAL BACKBONE.HISTORY
   // Has the history handling already been started?
-  History.started = false;
+  // History.started = false;
 
   // Set up all inheritable **Backbone.History** properties and methods.
   _.extend(History.prototype, {
@@ -132,8 +133,10 @@ define(function() {
     // Start the hash change handling, returning `true` if the current URL matches
     // an existing route, and `false` otherwise.
     start: function(options) {
-      if (History.started) throw new Error("LocationBar has already been started");
-      History.started = true;
+      // MODIFICATION OF ORIGINAL BACKBONE.HISTORY
+      // if (History.started) throw new Error("LocationBar has already been started");
+      // History.started = true;
+      this.started = true;
 
       // Figure out the initial configuration. Do we need an iframe?
       // Is pushState desired ... is it available?
@@ -211,7 +214,7 @@ define(function() {
       off(window, 'popstate', this.checkUrl);
       off(window, 'hashchange', this.checkUrl);
       if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
-      History.started = false;
+      this.started = false;
     },
 
     // Add a route to be tested when the fragment changes. Routes added later
@@ -253,7 +256,7 @@ define(function() {
     // route callback be fired (not usually desirable), or `replace: true`, if
     // you wish to modify the current URL without adding an entry to the history.
     navigate: function(fragment, options) {
-      if (!History.started) return false;
+      if (!this.started) return false;
       if (!options || options === true) options = {trigger: !!options};
 
       var url = this.root + (fragment = this.getFragment(fragment || ''));
@@ -321,7 +324,8 @@ define(function() {
 
   // checks if the browser has pushstate support
   History.prototype.hasPushState = function () {
-    if (!History.started) {
+    // MODIFICATION OF ORIGINAL BACKBONE.HISTORY
+    if (!this.started) {
       throw new Error("only available after LocationBar.start()");
     }
     return this._hasPushState;
