@@ -1,14 +1,12 @@
 {
   "name": "location-bar",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "A microlib for managing browser's location bar via pushState and hashChange APIs. This lib makes it easy to listen to URL changes and update the URL.",
   "main": "location-bar.js",
   "directories": {
     "test": "test"
   },
-  "scripts": {
-
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/KidkArolis/location-bar.git"
@@ -25,15 +23,16 @@
   "bugs": {
     "url": "https://github.com/KidkArolis/location-bar/issues"
   },
-  "testling" : {
-    "html" : "test/location_bar_test.html",
+  "testling": {
+    "html": "test/location_bar_test.html",
     "browsers": [
       "ie/6..latest",
       "chrome/20..latest",
       "firefox/10..latest",
       "safari/latest",
       "opera/11.0..latest",
-      "iphone/6", "ipad/6"
+      "iphone/6",
+      "ipad/6"
     ]
   }
 }
