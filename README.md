@@ -117,14 +117,3 @@ Checks if the browser has pushState support. Not all browsers support pushState,
 The full original `Backbone.Router` tests from Backbone project are being run after replacing Backbone.history with locationBar to make sure full compatiblity, and some aditional tests (for new methods) have been added as well.
 
 The code and tests are adapted from Backbone 1.1.2 (commit 53f77901a4ea9c7cf75d3db93ddddf491998d90f)
-
-
-## Changelog
-
-### 2.1.0
-
-* Make it possible to pass custom `location` and `history` objects to `start` - mostly intended for testing
-
-### 2.0.0
-
-* Query param support. Backbone 1.0.0 had no support for query params (and an inconsistency between pushState and hashChange where query params where stripped from the fragment before calling handlers in hashChange mode, but not when using pushState). Backbone `e6f8f7` adds full support for query params which is now also available in location-bar. The `onChange` and `route` callbacks will now get the fragment including the query params and `update` can be passed in a fragment with query params as well.
