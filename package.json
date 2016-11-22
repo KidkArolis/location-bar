@@ -26,7 +26,7 @@
   "testling": {
     "html": "test/location_bar_test.html",
     "browsers": [
-      "ie/6..latest",
+      "ie/8..latest",
       "chrome/20..latest",
       "firefox/10..latest",
       "safari/latest",
